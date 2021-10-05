@@ -3,6 +3,7 @@ import chess
 from chess.svg import piece
 import numpy as np
 class State(object): 
+    count = 0
     def __init__(self, board = None): 
         if(board == None): 
             self.board = chess.Board()
@@ -20,16 +21,16 @@ class State(object):
             if pieces_at_p is not None: 
                 board_state[i] = {"P": 1, "N": 2, "B": 3, "R": 4, "Q": 5, "K": 6, \
                 "p": 9, "n": 10, "b": 11, "r": 12, "q": 13, "k": 14}[pieces_at_p.symbol()]
-        if(self.board.has_queenside_castling_rights(False)): 
+        if(self.board.has_queenside_castling_rights(chess.WHITE)): 
             assert(board_state[0] == 4)
             board_state[0] = 7
-        if(self.board.has_kingside_castling_rights(False)): 
+        if(self.board.has_kingside_castling_rights(chess.WHITE)): 
             assert(board_state[7] == 4)
             board_state[7] = 7
-        if(self.board.has_queenside_castling_rights(True)): 
+        if(self.board.has_queenside_castling_rights(chess.BLACK)): 
             assert(board_state[56] == 8+4)
             board_state[56] = 8+7
-        if(self.board.has_kingside_castling_rights(True)):
+        if(self.board.has_kingside_castling_rights(chess.BLACK)):
             assert(board_state[63] == 8+4)
             board_state[63] = 8+7
         if(self.board.ep_square is not None): 
@@ -43,7 +44,7 @@ class State(object):
         state[:,:,3] = (board_state >> 0)&1
         state[:,:,4] = (self.board.turn * 1.0)
         seralizer = self.board.shredder_fen()
-        print(state)
+        #print(state, seralizer)
         return state
 if __name__ == "__main__": 
     s = State()
