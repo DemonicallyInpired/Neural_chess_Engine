@@ -37,12 +37,12 @@ class State(object):
             assert(board_state[self.board.ep_square] == 0) 
             board_state[self.board.ep_square] = 8
         board_state = np.reshape(board_state, (8, 8))
-        state = np.zeros((8, 8, 5))
-        state[:,:,0] = (board_state >> 3)&1
-        state[:,:,1] = (board_state >> 2)&1
-        state[:,:,2] = (board_state >> 1)&1
-        state[:,:,3] = (board_state >> 0)&1
-        state[:,:,4] = (self.board.turn * 1.0)
+        state = np.zeros((5, 8, 8), np.uint8)
+        state[0] = (board_state >> 3)&1
+        state[1] = (board_state >> 2)&1
+        state[2] = (board_state >> 1)&1
+        state[3] = (board_state >> 0)&1
+        state[4] = (self.board.turn * 1.0)
         seralizer = self.board.shredder_fen()
         #print(state, seralizer)
         return state
