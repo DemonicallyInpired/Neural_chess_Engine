@@ -2,3 +2,4 @@
 *.swap
 *.vscode
 data/
+__pycache__
